@@ -57,7 +57,6 @@
 						<?php
 						$this->donate();
 						$this->plugin_support();
-						$this->yoast_news();
 						$this->news();
 						?>
 					</div>

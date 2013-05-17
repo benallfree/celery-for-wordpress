@@ -10,6 +10,7 @@ Version: 1.0
 */
 
 add_action('wp_enqueue_scripts', function() {
+  wp_enqueue_script('celery-support', plugins_url('/assets/js/support.js', __FILE__));
   wp_enqueue_script('celery', 'https://www.trycelery.com/js/celery.js', null, null, true);
   wp_enqueue_script('celery-progress', 'https://www.trycelery.com/js/progress-widget.js', null, null, true);
 });
@@ -25,6 +26,7 @@ TODO
 */
 
 class CeleryPlugin {
+  var $feed = 'https://api.twitter.com/1/statuses/user_timeline.json?screen_name=trycelery&count=10&include_rts=false';
   var $hook     = 'celery';
   var $longname  = 'Celery Settings';
   var $shortname  = 'Celery';
@@ -132,13 +134,13 @@ class CeleryPlugin {
     if (empty($hook)) {
       $hook = $this->hook;
     }
-    $content = '<p>'.__('Why not do any or all of the following:', 'clicky' ).'</p>';
+    $content = '<p>'.__('Why not do any or all of the following:', 'celery' ).'</p>';
     $content .= '<ul>';
-    $content .= '<li><a href="'.$this->homepage.'">'.__('Link to it so other folks can find out about it.', 'clicky' ).'</a></li>';
-    $content .= '<li><a href="http://wordpress.org/extend/plugins/'.$hook.'/">'.__('Give it a 5 star rating on WordPress.org.', 'clicky' ).'</a></li>';
-    $content .= '<li><a href="http://wordpress.org/extend/plugins/'.$hook.'/">'.__('Let other people know that it works with your WordPress setup.', 'clicky' ).'</a></li>';
+    $content .= '<li><a href="'.$this->homepage.'">'.__('Link to it so other folks can find out about it.', 'celery' ).'</a></li>';
+    $content .= '<li><a href="http://wordpress.org/extend/plugins/'.$hook.'/">'.__('Give it a 5 star rating on WordPress.org.', 'celery' ).'</a></li>';
+    $content .= '<li><a href="http://wordpress.org/extend/plugins/'.$hook.'/">'.__('Let other people know that it works with your WordPress setup.', 'celery' ).'</a></li>';
     $content .= '</ul>';
-    $this->postbox($hook.'like', __( 'Like this plugin?', 'clicky' ), $content);
+    $this->postbox($hook.'like', __( 'Like this plugin?', 'celery' ), $content);
   }  
   
   /**
@@ -148,75 +150,50 @@ class CeleryPlugin {
     if (empty($hook)) {
       $hook = $this->hook;
     }
-    $content = '<p>'.__("If you're in need of support with Clicky and / or this plugin, please visit the <a href='https://secure.getclicky.com/forums/'>Clicky forums</a>.", 'clicky').'</p>';
-    $this->postbox($this->hook.'support', __('Need Support?','clicky'), $content);
+    $content = '<p>'.__("If you're in need of support for Celery and/or this plugin, please visit <a href='https://www.trycelery.com/faq'>our FAQ</a>.", 'celery').'</p>';
+    $this->postbox($this->hook.'support', __('Need Support?','celery'), $content);
   }
 
   /**
    * Box with latest news from GetClicky
    */
   function news( ) {
-    include_once(ABSPATH . WPINC . '/feed.php');
-    $rss = fetch_feed( $this->feed );
-    $rss_items = $rss->get_items( 0, $rss->get_item_quantity(3) );
-    $content = '<ul>';
-    if ( !$rss_items ) {
-        $content .= '<li class="yoast">'.__( 'No news items, feed might be broken...', 'clicky' ).'</li>';
-    } else {
-        foreach ( $rss_items as $item ) {
-          $url = preg_replace( '/#.*/', '', esc_url( $item->get_permalink(), $protocolls=null, 'display' ) );
-        $content .= '<li class="yoast">';
-        $content .= '<a class="rsswidget" href="'.$url.'#utm_source=wpadmin&utm_medium=sidebarwidget&utm_term=newsitem&utm_campaign=clickywpplugin">'. esc_html( $item->get_title() ) .'</a> ';
-        $content .= '</li>';
-        }
-    }            
-    $content .= '<li class="rss"><a href="'.$this->feed.'">'.__( 'Subscribe with RSS', 'clicky' ).'</a></li>';
-    $content .= '</ul>';
-    $this->postbox('clickylatest', __( 'Latest news from Clicky' , 'clicky' ), $content);
-  }
-
-  /**
-   * Box with latest news from Yoast.com for sidebar
-   */
-  function yoast_news() {
-    $rss = fetch_feed('http://feeds.feedburner.com/joostdevalk');
-    $rss_items = $rss->get_items( 0, $rss->get_item_quantity(3) );
-    
-    $content = '<ul>';
-    if ( !$rss_items ) {
-        $content .= '<li class="yoast">'.__( 'No news items, feed might be broken...', 'clicky' ).'</li>';
-    } else {
-        foreach ( $rss_items as $item ) {
-          $url = preg_replace( '/#.*/', '', esc_url( $item->get_permalink(), $protocolls=null, 'display' ) );
-        $content .= '<li class="yoast">';
-        $content .= '<a class="rsswidget" href="'.$url.'#utm_source=wpadmin&utm_medium=sidebarwidget&utm_term=newsitem&utm_campaign=clickywpplugin">'. esc_html( $item->get_title() ) .'</a> ';
-        $content .= '</li>';
-        }
-    }            
-    $content .= '<li class="facebook"><a href="https://www.facebook.com/yoastcom">'.__( 'Like Yoast on Facebook', 'clicky' ).'</a></li>';
-    $content .= '<li class="twitter"><a href="http://twitter.com/yoast">'.__( 'Follow Yoast on Twitter', 'clicky' ).'</a></li>';
-    $content .= '<li class="googleplus"><a href="https://plus.google.com/115369062315673853712/posts">'.__( 'Circle Yoast on Google+', 'clicky' ).'</a></li>';
-    $content .= '<li class="rss"><a href="'.$this->feed.'">'.__( 'Subscribe with RSS', 'clicky' ).'</a></li>';
-    $content .= '<li class="email"><a href="http://yoast.com/wordpress-newsletter/">'.__( 'Subscribe by email', 'clicky' ).'</a></li>';
-    $content .= '</ul>';
-    $this->postbox('yoastlatest', __( 'Latest news from Yoast', 'clicky' ), $content);
+    $content = <<<IFRAME
+<a class="twitter-timeline" href="https://twitter.com/trycelery" data-widget-id="335419677868187648">Tweets by @trycelery</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+IFRAME;
+    $this->postbox('celerylatest', __( 'Latest news from Celery' , 'celery' ), $content);
   }
 
   /**
    * Donation box
    */
   function donate() {
-    $this->postbox('donate','<strong class="red">'.__( 'Like this plugin?', 'clicky' ).'</strong>','<p><strong>'.__( 'Want to help make it better? All donations are used to improve this plugin, so donate $10, $20 or $50 now!', 'clicky' ).'</strong></p><form style="width:160px;margin:0 auto;" action="https://www.paypal.com/cgi-bin/webscr" method="post">
-    <input type="hidden" name="cmd" value="_s-xclick">
-    <input type="hidden" name="hosted_button_id" value="KWQT234DEG7KY">
-    <input type="image" src="https://www.paypal.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit">
-    <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
-    </form>'
-    .'<p>'.__('Or you could:', 'clicky').'</p>'
-    .'<ul>'
-    .'<li><a href="http://wordpress.org/extend/plugins/clicky/">'.__('Rate the plugin 5★ on WordPress.org', 'clicky').'</a></li>'
-    .'<li><a href="http://yoast.com/wordpress/clicky/#utm_source=wpadmin&utm_medium=sidebanner&utm_term=link&utm_campaign=clickywpplugin">'.__('Blog about it & link to the plugin page', 'clicky').'</a></li>'
-    .'</ul>');
+    $content = <<<CONTENT
+    <p><strong>%s</strong></p>
+    <form style="width:160px;margin:0 auto;" action="https://www.paypal.com/cgi-bin/webscr" method="post">
+      <input type="hidden" name="cmd" value="_s-xclick">
+      <input type="hidden" name="hosted_button_id" value="2JGUY2JBQSMVN">
+      <input type="image" src="https://www.paypal.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit">
+      <img alt="" border="0" src="https://www.paypal.com/en_US/i/scr/pixel.gif" width="1" height="1">
+    </form>
+    <p>%s</p>
+    <ul>
+      <li><a href="https://twitter.com/share" class="twitter-share-button" data-url="http://trycelery.com" data-text="Preorders without Celery: not even once." data-related="trycelery">Tweet</a>
+  <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+      <li><a href="https://facebook.com/trycelery">%s</a></li>
+      <li><a href="%s">%s</a></li>
+    </ul>
+
+CONTENT;
+    $content = sprintf($content,
+      __( 'Want to help make it better? All donations are used to improve this plugin, so donate $10, $20 or $50 now!', 'celery' ),
+      __('Or you could:', 'celery'),
+      __('Like us on Facebook', 'celery'),
+      admin_url('post-new.php'),
+      __('Blog about us', 'celery')
+    );
+    $this->postbox('donate','<strong class="red">'.__( 'Like this plugin?', 'celery' ).'</strong>',$content);
   }
   
       
@@ -241,12 +218,12 @@ class CeleryPlugin {
   {
     $options = $this->options();
     add_shortcode('celery-connect', function($atts, $content='') use ($options) {
+      if(!$atts['slug']) $atts['slug'] = $options['product_slug'];
       $selector = $atts['selector'];
       $s = <<<SCRIPT
         <script>
           jQuery(function($) {
-            el = $('{$selector}').get(0);
-            celery.addEvent(el, "click", celery.load);
+            Celery.connect('{$selector}', '{$atts['slug']}');
           });
         </script>
 SCRIPT;
@@ -265,11 +242,14 @@ SCRIPT;
 
     add_shortcode('celery-progress', function($atts, $content='') use ($options) {
       if(!$atts['slug']) $atts['slug'] = $options['product_slug'];
+      if(!$atts['style']) $atts['style'] = '';
+      if(!$atts['width']) $atts['width'] = "200";
+      $atts['style'] .= "; width: {$atts['width']}px;";
       $atts['data-celery-slug'] = $atts['slug'];
       unset($atts['slug']);
       $atts['class'] = 'celery-progress-bar';
       if($content) $atts['data-celery-goal-text'] = $content;
-      $e = new HtmlElement('div-progress');
+      $e = new HtmlElement('div');
       $e->set($atts);
       return $e->build();
     });
