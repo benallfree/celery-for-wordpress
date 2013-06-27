@@ -3,7 +3,7 @@
     <strong>  
       <?=_e( 'Celery is almost ready. ', 'celery' )?>
     </strong>  
-    <? printf( __( 'You must %1senter your Celery Product URL%2s.', 'celery' ), "<a href='" . admin_url( 'options-general.php?page=celery' ) . "'>", "</a>" ); ?>
+    <? printf( __( 'You must %1senter your Celery Product Slug%2s.', 'celery' ), "<a href='" . admin_url( 'options-general.php?page=celery' ) . "'>", "</a>" ); ?>
   </p>
 </div>  
 <script type="text/javascript">
