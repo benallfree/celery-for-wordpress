@@ -1,10 +1,10 @@
 <?php
 
 /*
-Plugin Name: Celery
-Plugin URI: http://github.com/benallfree/celery
-Description: Celery integration
-Author URI: http://trycelery.com
+Plugin Name: Celery for WordPress
+Plugin URI: http://github.com/benallfree/celery-for-wordpress
+Description: Celery for WordPress allows you to accept credit card preorders directly from your WordPress site.
+Author URI: http://wp-results.com/celery-for-wordpress
 Licence: GPLv3
 Version: 1.0
 */
