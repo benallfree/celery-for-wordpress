@@ -8,13 +8,13 @@ Stable tag: 1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Celery for WordPress is a WordPress plugin to seamless integrate the Celery preorder platform into your WordPress posts and pages.
+Celery for WordPress is a WordPress plugin to seamlessly integrate the Celery preorder platform into your WordPress posts and pages.
 
 == Description ==
 
-Celery for WordPress is a WordPress plugin to seamless integrate the [Celery preorder platform](http://trycelery.com) into your WordPress posts and pages.
+The [Celery preorder platform](http://trycelery.com) right from the comfort of WordPress? Yes please!
 
-Celery allows you to accept credit cards safely and securely directly on your WordPress site, and charge your customers only when you are ready to ship.
+Celery allows you to accept credit card preorders safely and securely directly on your WordPress site, and charge your customers only when and if you are ready to ship.
 
 Features:
 
@@ -25,15 +25,23 @@ Features:
 
 == Installation ==
 
-To install Celery for WordPress, go to your WordPress admin and choose Plugins > Add New. Then, search for `celery` and install.
+*This plugin requires a [Celery](http://trycelery.com) and [Stripe](http://stripe.com) account (Celery will help you sign up with Stripe)*
 
-Or, if you prefer, download the zip file here and install it manually by uploading it.
+To install Celery for WordPress:
 
-Please note that you will also need a Celery account and a Stripe account (Celery will help you sign up for Stripe).
+1. Go to your WordPress admin and choose `Plugins > Add New`.
+1. Search for `celery` and install.
+1. Activate the plugin
+
+Note: Celery for WordPress is compatible with multisite mode. If you are running in multisite mode,
+we recommend that you *do not* Network Activate the plugin unless it really does apply to all sites.
+Each site will have its own configuration settings.
+
+If you prefer, you can also download the plugin zip file here and install it manually by uploading it.
 
 == Frequently Asked Questions ==
 
-= What is a preorder campaign = 
+= What is a preorder campaign? = 
 
 A preorder campaign allows you to being accepting orders before you are ready to ship. You accept credit cards now and charge
 them only when you are ready to ship.
@@ -49,7 +57,15 @@ No SSL is required. Celery presents as an IFRAME or overlay which is secured. Yo
 
 = Do I need a merchant account like PayPal or Authorize.net? =
 
-No. Celery partners with Stripe for credit card transactions. You need an account with them.
+No. Celery partners with Stripe for credit card transactions. You need an account with both them.
+
+= But I've done credit card stuff before. You definitely need an SSL cert and PCI complaince, right? =
+No. Celery runs securely in an SSL IFRAME either inline or as a popup on your WordPress site. Your users' card information never
+touches your site; it goes straight to Celery and then to Stripe. Stripe is the only one that stores card info. Stripe is a
+[PCI Service Provider Level 1](https://stripe.com/help/security), the highest security standard in the industry.
+
+= What does all this cost? =
+Celery takes 2% and [Stripe takes 3%](https://stripe.com/us/help/pricing).
 
 == Screenshots ==
 
